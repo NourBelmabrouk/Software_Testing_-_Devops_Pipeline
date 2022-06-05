@@ -33,8 +33,7 @@ class TestConferenceUsers(TestCase):
         chrome_options.add_argument("--start-maximized")
         chrome_options.add_argument('--disable-gpu')
         #inst.driver = webdriver.Chrome(ChromeDriverManager().install())
-        chrome_driver_binary = "/usr/local/bin/chromedriver"
-        inst.driver = webdriver.Chrome(chrome_driver_binary,options = chrome_options)
+        inst.driver = webdriver.Chrome(options = chrome_options)
 
         #inst.driver.implicitly_wait(1)
         print("Visiting form page")

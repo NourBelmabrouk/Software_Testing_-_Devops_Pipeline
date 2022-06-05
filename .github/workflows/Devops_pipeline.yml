@@ -22,7 +22,7 @@ jobs:
       - name: Integration test
         run: coverage run -m pytest "tests/integration_tests/test_integration.py"
       - name: E2E test
-        run: coverage run -m unittest "tests/e2e_tests/test_e2e.py"   
+        run: coverage run -m pytest "tests/e2e_tests/test_e2e.py"   
 
   Build:
     runs-on: ubuntu-latest
