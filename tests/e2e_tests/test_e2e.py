@@ -37,7 +37,7 @@ class TestConferenceUsers(TestCase):
 
         #inst.driver.implicitly_wait(1)
         print("Visiting form page")
-        inst.driver.get('http://127.0.0.1:5000/')
+        inst.driver.get('http://localhost:5000/')
 
 
     
