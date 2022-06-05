@@ -7,6 +7,5 @@ Dockerfile
 unit-tests
 UAT-tests
 integration-tests
-e2e-tests
 .coverage
 requirements-dev.txt
