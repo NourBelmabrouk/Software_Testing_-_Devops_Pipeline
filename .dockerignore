@@ -9,3 +9,4 @@ UAT-tests
 integration-tests
 .coverage
 requirements-dev.txt
+env
