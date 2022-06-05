@@ -18,11 +18,11 @@ jobs:
           pip install -r requirements-dev.txt
           pip install -r requirements.txt
       - name: Unit test
-        run: coverage run -m unittest tests\unit-tests\unit_test_app.py 
+        run: coverage run -m unittest tests/unit-tests/unit_test_app.py 
       - name: Integration test
-        run: coverage run -m pytest "tests\integration-tests\integration_test.py"
+        run: coverage run -m pytest "tests/integration-tests/integration_test.py"
       - name: E2E test
-        run: coverage run -m unittest "tests\e2e-tests\e2e_test.py"   
+        run: coverage run -m unittest "tests/e2e-tests/e2e_test.py"   
 
   Build:
     runs-on: ubuntu-latest
