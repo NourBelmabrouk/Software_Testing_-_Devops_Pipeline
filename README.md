@@ -15,7 +15,7 @@ This project was built using
 ![Form Page](images/formpage.png)
 
 <br />
-A "Than you for Registering" page will display, and the user will have the option of entering a new user or viewing the entire database of people. 
+A "Thank you for Registering" page will display, and the user will have the option of entering a new user or viewing the entire database of people. 
 <br />
 
 ![Submitted Page](images/thankyou.png)
