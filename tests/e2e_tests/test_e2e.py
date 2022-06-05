@@ -38,7 +38,6 @@ class TestConferenceUsers(TestCase):
         #inst.driver.implicitly_wait(1)
         print("Visiting form page")
         inst.driver.get('http://localhost:5000/')
-        inst.driver.save_screenshot('./tests/Screenshots/01.png')
 
 
     
