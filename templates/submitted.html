@@ -11,10 +11,10 @@
 	<div class="container">
     
     <header>
-      <h1>Thank you for Registering!</h1>
+      <h1 id="message">Thank you for Registering!</h1>
       <button><a href="{{ url_for('index') }}">Enter New User</a></button>
       <br>
-      <button><a href="{{ url_for('view_database') }}">View Database</a></button>
+      <button><a id="list" href="{{ url_for('view_database') }}">View Database</a></button>
     </header>
 
 

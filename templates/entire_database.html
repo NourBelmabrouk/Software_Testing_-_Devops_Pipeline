@@ -11,7 +11,7 @@
     
 </head>
 <body>
-    <h2>Database</h2>
+    <h2 id="database">Database</h2>
     <table>
         {% if rows %}
             <tr>
@@ -24,8 +24,8 @@
             {% for row in rows %}
                 <tr>
                     <td>
-                        <form method='post' action="{{ url_for('delete', the_id=row.id) }}">
-                            <label>{{ row.id }}</label>
+                        <form method='post' action="{{ url_for('delete', the_id=row[0]) }}">
+                            <label>{{ row[0] }}</label>
                             <input type="checkbox" name="remove">
                             <br>
                             <input type="submit" value="DELETE">
@@ -33,16 +33,16 @@
                     </td>
 
                     <td>
-                        <form method="post" action="{{ url_for('modify_database', the_id=row.id, modified_category='name') }}">
-                            <label>{{ row.name }}</label>
+                        <form method="post" action="{{ url_for('modify_database', the_id=row[0], modified_category='name') }}">
+                            <label>{{ row[1] }}</label>
                             <input type="text" name="name" placeholder="Edit Name">
                             <br>
                             <input type="submit" value="SUBMIT">
                         </form>
                     </td>
                     <td>
-                        <form method="post" action="{{ url_for('modify_database', the_id=row.id, modified_category='phone') }}">
-                            <label>{{ row.phone }}</label>
+                        <form method="post" action="{{ url_for('modify_database', the_id=row[0], modified_category='phone') }}">
+                            <label>{{ row[2] }}</label>
                             <input type="text" name="phone" placeholder="Edit Phone Number">
                             <br>
                             <input type="submit" value="SUBMIT">
@@ -50,8 +50,8 @@
                     </td>
                     
                     <td>
-                        <form method="post" action="{{ url_for('modify_database', the_id=row.id, modified_category='email') }}">
-                            <label>{{ row.email }}</label>
+                        <form method="post" action="{{ url_for('modify_database', the_id=row[0], modified_category='email') }}">
+                            <label>{{ row[3] }}</label>
                             <input type="text" name="email" placeholder="Edit Email">
                             <br>
                             <input type="submit" value="SUBMIT">
@@ -59,8 +59,8 @@
                     </td>
 
                     <td>
-                        <form method="post" action="{{ url_for('modify_database', the_id=row.id, modified_category='job') }}">
-                            <label>{{ row.job }}</label>
+                        <form method="post" action="{{ url_for('modify_database', the_id=row[0], modified_category='job') }}">
+                            <label>{{ row[4] }}</label>
                             <input type="text" name="job" placeholder="Edit Job">
                             <br>
                             <input type="submit" value="SUBMIT">

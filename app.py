@@ -1,78 +1,75 @@
-import routes
-from flask import Flask
+from db_init import create_db
+from functions import delete_data, get_all_rows_from_table, insert_data, modify_data
 import os 
-from flask_sqlalchemy import SQLAlchemy 
-
-def create_the_database(db):
-    db.create_all()
+from flask import Flask,render_template, request, redirect, url_for
+import forms
 
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'A secret'
 
-all_methods = ['GET', 'POST']
+def create_app(name):
+    app = Flask(__name__)
 
-# Home page (where you will add a new user)
-app.add_url_rule('/', view_func=routes.index)
-# "Thank you for submitting your form" page
-app.add_url_rule('/submitted', methods=all_methods, view_func=routes.submitted)
-# Viewing all the content in the database page
-app.add_url_rule('/database', view_func=routes.view_database)
-app.add_url_rule('/modify<the_id>/<modified_category>', methods=all_methods, view_func=routes.modify_database)
-app.add_url_rule('/delete<the_id>', methods=all_methods, view_func=routes.delete)
+    @app.route('/')
+    def index():
+        form = forms.LoginForm()
+        return render_template('index.html',form=form)
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # no warning messages
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///info.db' # for using the sqlite database
+    @app.route('/submitted',methods=['GET','POST'])
+    def submitted():
+        form=request.form
+        if request.method == 'POST':
+            print(form)
+            name = form["name"]
+            phone = form['phone']
+            email = form['email']
+            job = form['job']
 
-db = SQLAlchemy(app)
+            # insert data into database
+            insert_data(name, phone, email, job)
 
-# Create User Table
-class User(db.Model):
-    __tablename__ = 'Users'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    phone = db.Column(db.Integer)
-    email = db.Column(db.String(50))
-    job = db.Column(db.String(50))
-    
+        return render_template('submitted.html')
 
-def insert_data(name, phone, email, job):
-    new_user = User(name=name, phone=phone, email=email, job=job)
-    db.session.add(new_user)
-    db.session.commit()
+    @app.route('/database')
+    def view_database():
+        rows = get_all_rows_from_table()
+        
+        return render_template('entire_database.html', rows=rows)
 
-def modify_data(the_id, col_name, user_input):
-    the_user = User.query.filter_by(id=the_id).first()
-    if col_name == 'name':
-        the_user.name = user_input
-    elif col_name == 'phone':
-        the_user.phone = user_input 
-    elif col_name == 'email':
-        the_user.email = user_input 
-    elif col_name == 'job':
-        the_user.job = user_input 
-    
-    
-    db.session.commit() 
+    @app.route('/delete<the_id>',methods=['POST'])
+    def delete(the_id):
+        if request.method == 'POST':
+            # if the checkbox was selected (for deleting entire row)
+            delete_data(the_id)
+        return redirect(url_for('view_database'))
+
+    @app.route('/modify<the_id>/<modified_category>',methods=['GET','POST'])
+    def modify_database(the_id ,modified_category):
+        form=request.form
+        if request.method == 'POST':
+            # Get data from the form on database page
+            user_input = form[modified_category]
+            # modify the row from the database
+            modify_data(the_id, modified_category, user_input)
+            # redirect back to the database page
+            return redirect(url_for('view_database'))
+        return redirect(url_for('index'))
 
 
-def delete_data(the_id):
-    the_user = User.query.filter_by(id=the_id).first()
-    db.session.delete(the_user)
-    db.session.commit()
-    
+    return app
 
-def get_all_rows_from_table():
-    users = User.query.all()
-    return users 
-    
 
-# if database does not exist in the current directory, create it!
-db_is_new = not os.path.exists('info.db')
-if db_is_new:
-    create_the_database(db)
 
+
+
+
+def launch( db='info.db', create=False):
+    if create:
+        create_db(db)
+    os.environ['DATABASE_FILENAME'] = db
+    app = create_app(__name__)
+    app.secret_key = 'secret'
+    app.run(debug = True)
 
 # start the app
 if __name__ == '__main__':
-    app.run(debug=True)
+    launch()

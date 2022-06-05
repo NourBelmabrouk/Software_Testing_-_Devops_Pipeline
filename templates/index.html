@@ -14,8 +14,7 @@
       <h1>Conference</h1>
     </header>
 
-    <form method="POST" action="{{ url_for('submitted') }}">
-      {{ form.csrf_token }}
+    <form method="POST" action="/submitted">
       {{ form.name.label }}
       {{ form.name }}
       {{ form.phone.label }}
@@ -24,7 +23,7 @@
       {{ form.email }}
       {{ form.job.label }}
       {{ form.job }}
-      <button type="submit">Register</button>
+      <button type="submit" value="Submit" id="Submit">Register</button>
     </form>
     <button><a href="{{ url_for('view_database') }}">View Database</a></button>
 	</div>

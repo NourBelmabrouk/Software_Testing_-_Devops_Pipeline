@@ -1,66 +1,106 @@
 from unittest import TestCase, main
 from unittest.mock import patch
-from app import insert_data,get_all_rows_from_table,delete_data,modify_data
-from app import app, db ,User
+from functions import insert_data,get_all_rows_from_table,delete_data,modify_data
+import os
 
-
+os.environ['DATABASE_FILENAME'] = 'info.db'
 
 class TestUsers(TestCase):
 
-    def setUp(self):
-        self.db_uri = 'sqlite:///info.db'
-        app.config['TESTING'] = True
-        app.config['WTF_CSRF_ENABLED'] = False
-        app.config['SQL_ALCHEMY_DATABASE_URI'] = self.db_uri
-        self.app = app.test_client()
-        db.create_all()
+    @patch("functions.sqlite3")
+    def test_add_user(self,mock_class):
 
-
-    def test_add_user(self):
-
-        #given
-        number_users=len(User.query.all())+1
+        # given
+        mock_execute= (mock_class.connect.return_value.execute)
 
         #when 
         insert_data("ali",23133667,"ali@gmail.com","retired")
 
         #then
-        self.assertEqual(len(User.query.all()),number_users)
+        mock_execute.assert_called_once()
 
-    def test_delete_user(self):
+    @patch("functions.sqlite3")
+    def test_fetch_all(self,mock_class):
+        # Given
+        mock_class.connect().cursor().execute().fetchall.return_value = [
+            ('Lee',12,'lee@aol.com','student'),
+            ('Kory',13,'kory@aol.com','UX Developer'),
+            ('Laura',14,'laura@aol.com','Project Manager')
+            ]
+        expected_users=[
+            ('Lee',12,'lee@aol.com','student'),
+            ('Kory',13,'kory@aol.com','UX Developer'),
+            ('Laura',14,'laura@aol.com','Project Manager')
+            ]
 
-        #given
-        number_users=len(User.query.all())-1
+        #When
+        result_users=get_all_rows_from_table()
 
-        #when 
-        delete_data(6)
+        #Then
+        self.assertEqual(expected_users, result_users)
 
-        #then
-        self.assertEqual(len(User.query.all()),number_users)
+    @patch("functions.sqlite3")
+    def test_delete_user(self,mock_class):
 
-    
-    def test_modify_data(self):
+        # given
+        mock_execute= (mock_class.connect.return_value.execute)
 
-        #given
-        expected_change="graduated"
+        # When
+        delete_data(0)
 
-        #when 
-        modify_data("5","job","graduated")
-        user=User.query.filter_by(id='5').first()
+        #Then
+        mock_execute.assert_called_once()
 
-        #then
-        self.assertEqual(user.job,expected_change)
+    @patch("functions.sqlite3")
+    def test_update_name_user(self,mock_class):
 
-    def test_fetch_all(self):
+        # given
+        mock_execute= (mock_class.connect.return_value.execute)
 
-        #given
-        expected_number_users=5
+        # When
+        modify_data(0,'name','nour')
 
-        #when 
-        number_users=len(get_all_rows_from_table())
+        #Then
+        mock_execute.assert_called_once()
 
-        #then
-        self.assertEqual(number_users,expected_number_users)
+    @patch("functions.sqlite3")
+    def test_update_phone_user(self,mock_class):
+
+        # given
+        mock_execute= (mock_class.connect.return_value.execute)
+
+        # When
+        modify_data(0,'phone',147)
+
+        #Then
+        mock_execute.assert_called_once()
+
+
+    @patch("functions.sqlite3")
+    def test_update_email_user(self,mock_class):
+
+        # given
+        mock_execute= (mock_class.connect.return_value.execute)
+
+        # When
+        modify_data(0,'email','nour@gmail.com')
+
+        #Then
+        mock_execute.assert_called_once()
+
+    @patch("functions.sqlite3")
+    def test_update_job_user(self,mock_class):
+
+        # given
+        mock_execute= (mock_class.connect.return_value.execute)
+
+        # When
+        modify_data(0,'job','retired')
+
+        #Then
+        mock_execute.assert_called_once()
+
+ 
 
 
 
