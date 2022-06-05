@@ -7,6 +7,7 @@ from app import launch
 import multiprocessing
 import os
 from unittest import TestCase
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 def delete_user():
@@ -31,11 +32,11 @@ class TestConferenceUsers(TestCase):
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--start-maximized")
         chrome_options.add_argument('--disable-gpu')
-        inst.driver = webdriver.Chrome(options = chrome_options)
+        inst.driver = webdriver.Chrome(ChromeDriverManager().install())
 
         #inst.driver.implicitly_wait(1)
         print("Visiting form page")
-        inst.driver.get('http://localhost:5000/')
+        inst.driver.get('http://127.0.0.1:5000/')
 
 
     
@@ -75,14 +76,14 @@ class TestConferenceUsers(TestCase):
 
         self.assertIn(expected_message, message)
 
-    def test_03_edit_phone(self):
+    def test_03_edit_name(self):
         
-        phone_field = self.driver.find_element(by=By.CSS_SELECTOR, value='body > table > tbody > tr:nth-child(6) > td:nth-child(3) > form > input[type=text]:nth-child(2)')
-        phone_field.send_keys(25)
+        name_field = self.driver.find_element(by=By.CSS_SELECTOR, value='body > table > tbody > tr:nth-child(4) > td:nth-child(2) > form > input[type=text]:nth-child(2)')
+        name_field.send_keys("asma")
         time.sleep(2)
 
         print("Clicking submit button")
-        view_button = self.driver.find_element(by=By.CSS_SELECTOR, value='body > table > tbody > tr:nth-child(6) > td:nth-child(3) > form > input[type=submit]:nth-child(4)')
+        view_button = self.driver.find_element(by=By.CSS_SELECTOR, value='body > table > tbody > tr:nth-child(4) > td:nth-child(2) > form > input[type=submit]:nth-child(4)')
         view_button.click()
         time.sleep(2)
         
@@ -93,10 +94,7 @@ class TestConferenceUsers(TestCase):
 
     @classmethod
     def tearDownClass(inst):
-        inst.end = time.time()
-        elapsedtime=inst.end-inst.start
-        print("\n-------\nE2E test duration: ", "{:.2f}".format(elapsedtime), "seconds")
         inst.driver.quit()
         delete_user()
-        inst.app4test_process.terminate()
+        inst.ConferenceAppTest_process.terminate()
         os.remove('test_info.db')
