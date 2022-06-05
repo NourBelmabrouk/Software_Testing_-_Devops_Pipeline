@@ -32,7 +32,7 @@ class TestConferenceUsers(TestCase):
         chrome_options.add_argument("--no-sandbox")
         chrome_options.add_argument("--start-maximized")
         chrome_options.add_argument('--disable-gpu')
-        inst.driver = webdriver.Chrome(ChromeDriverManager().install())
+        inst.driver = webdriver.Chrome(ChromeDriverManager().install(),options=chrome_options)
 
         #inst.driver.implicitly_wait(1)
         print("Visiting form page")
