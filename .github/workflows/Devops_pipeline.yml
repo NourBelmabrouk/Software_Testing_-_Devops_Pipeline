@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.8','3.9']
+        python-version: ['3.8']
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -16,7 +16,7 @@ jobs:
       - run: |
           python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
-      - run: python -m pytest  --import-mode=append unit-tests/
+      - run: python -m pytest  --import-mode=append tests/
 
   Build:
     runs-on: ubuntu-latest
