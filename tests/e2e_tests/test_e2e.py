@@ -98,4 +98,3 @@ class TestConferenceUsers(TestCase):
         inst.driver.quit()
         delete_user()
         inst.ConferenceAppTest_process.terminate()
-        os.remove('test_info.db')
