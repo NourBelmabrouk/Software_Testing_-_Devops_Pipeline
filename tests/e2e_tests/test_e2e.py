@@ -80,7 +80,7 @@ class TestConferenceUsers(TestCase):
     def test_03_edit_name(self):
         
         name_field = self.driver.find_element(by=By.CSS_SELECTOR, value='body > table > tbody > tr:nth-child(4) > td:nth-child(2) > form > input[type=text]:nth-child(2)')
-        name_field.send_keys("asma")
+        name_field.send_keys("khaled")
         time.sleep(2)
 
         print("Clicking submit button")
