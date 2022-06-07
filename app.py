@@ -68,7 +68,7 @@ def launch( db='info.db', create=False):
     os.environ['DATABASE_FILENAME'] = db
     app = create_app(__name__)
     app.secret_key = 'secret'
-    app.run(debug = True)
+    app.run()
 
 # start the app
 if __name__ == '__main__':
