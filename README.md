@@ -56,3 +56,19 @@ Type in http://localhost:5000 into your browser to view the project live.
 -  E2E testing
 -  UAT
 
+## Deplayment on AWS ECS:
+
+-  Automated CI/CD pipelines (GitHub Actions): 
+
+![Deployment](images/workflow.PNG)
+<br />
+
+-  Deployment: 
+
+![Deployment](images/deployment.PNG)
+
+<br />
+
+-  Made changes on the header and deployed: 
+
+![Deployment](images/change.PNG)
